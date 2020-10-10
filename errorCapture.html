@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <div id="dynamic-component-demo" class="demo">
+    <button @click="selectedComponent = 'tab-home'">Home</button>
+    <button @click="selectedComponent = 'tab-info'">Info</button>
+    <button @click="selectedComponent = 'tab-about'">About</button>
+
+    <keep-alive>
+      <component :is="selectedComponent"></component>
+    </keep-alive>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+      
+    const app = Vue.createApp({
+      data() {
+        return {
+          selectedComponent: "tab-home",
+        };
+      },
+      errorCaptured(err, component, info) {
+        console.log(err);
+        console.log(component);
+        console.log(info);
+      },
+    });
+
+    app.component("tab-home", {
+      template: `<div class="demo-tab">Home component
+        <button v-on:click="notDefineMethod()">Trigger</button></div>`,
+    });
+
+    app.component("tab-info", {
+      template: `<div><br>
+        <input v-model="namep" placeholder="Name" />
+        <p>My Name is: {{ name }}</p>
+        </div>`,
+      data() {
+        return {
+          name: "",
+        };
+      },
+    });
+    
+    app.mount("#dynamic-component-demo");
+  </script>
+  <style>
+    .demo {
+      border: 1px solid #eee;
+      border-radius: 2px;
+      padding: 20px 30px;
+      margin-top: 1em;
+      margin-bottom: 40px;
+      user-select: none;
+      overflow-x: auto;
+    }
+
+    .tab-button {
+      padding: 6px 10px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f0f0f0;
+      margin-bottom: -1px;
+      margin-right: -1px;
+    }
+    .tab-button:hover {
+      background: #e0e0e0;
+    }
+    .tab-button.active {
+      background: #e0e0e0;
+    }
+    .demo-tab {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</html>
