@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <div id="dynamic-component-demo" class="demo">
+    <button @click="selectedComponent = 'tab-home'">Home</button>
+    <button @click="selectedComponent = 'tab-info'">Info</button>
+    <button @click="selectedComponent = 'tab-about'">About</button>
+
+    <keep-alive>
+      <component :is="selectedComponent"></component>
+    </keep-alive>
+  </div>
+  <script src="https://unpkg.com/vue@next"></script>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          selectedComponent: "tab-home",
+        };
+      },
+    });
+
+    app.component("tab-home", {
+      template: `<div class="demo-tab">Home component</div>`,
+      activated() {
+        console.log("tab-home activated");
+      },
+      deactivated() {
+        console.log("tab-home deactivated");
+      },
+    });
+    app.component("tab-info", {
+      template: `<div><br>
+        <input v-model="name" placeholder="Name" />
+        <p>My Name is: {{ name }}</p>
+        </div>`,
+      data() {
+        return {
+          name: "",
+        };
+      },
+      activated() {
+        console.log("tab-info activated");
+      },
+      deactivated() {
+        console.log("tab-info deactivated");
+      },
+    });
+    app.component("tab-about", {
+      template: `<div class="demo-tab">Archive component</div>`,
+      activated() {
+        console.log("tab-about activated");
+      },
+      deactivated() {
+        console.log("tab-about deactivated");
+      },
+    });
+
+    app.mount("#dynamic-component-demo");
+  </script>
+  <style>
+    .demo {
+      border: 1px solid #eee;
+      border-radius: 2px;
+      padding: 20px 30px;
+      margin-top: 1em;
+      margin-bottom: 40px;
+      user-select: none;
+      overflow-x: auto;
+    }
+
+    .tab-button {
+      padding: 6px 10px;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      background: #f0f0f0;
+      margin-bottom: -1px;
+      margin-right: -1px;
+    }
+    .tab-button:hover {
+      background: #e0e0e0;
+    }
+    .tab-button.active {
+      background: #e0e0e0;
+    }
+    .demo-tab {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+  </style>
+</html>
